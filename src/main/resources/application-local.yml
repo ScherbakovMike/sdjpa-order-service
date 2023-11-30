@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    username: orderuser
+    password: password
+    url: jdbc:mysql://127.0.0.1:3306/orderservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: validate
+  sql:
+    init:
+      mode: always
+
+  flyway:
+    user: orderadmin
+    password: password
+    locations: filesystem:src/main/resources/db.migration

@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    #show-sql: true
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+    database: mysql
+    hibernate:
+      ddl-auto: validate
+    defer-datasource-initialization: false
+
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace
