@@ -56,6 +56,11 @@
       <version>${kotlin.version}</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.jetbrains.kotlin</groupId>
+      <artifactId>kotlin-reflect</artifactId>
+      <version>${kotlin.version}</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -77,10 +82,16 @@
         <executions>
           <execution>
             <id>compile</id>
-            <phase>compile</phase>
+            <phase>process-sources</phase>
             <goals>
               <goal>compile</goal>
             </goals>
+            <configuration>
+              <sourceDirs>
+                <source>src/main/java</source>
+                <source>target/generated-sources/annotations</source>
+              </sourceDirs>
+            </configuration>
           </execution>
           <execution>
             <id>test-compile</id>

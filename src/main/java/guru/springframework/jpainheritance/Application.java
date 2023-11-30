@@ -1,4 +1,4 @@
-package guru.springframework.jpainheritance.domain.domain;
+package guru.springframework.jpainheritance;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
