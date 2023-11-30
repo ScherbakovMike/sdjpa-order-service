@@ -16,7 +16,7 @@
   <description>sdjpa-order-service</description>
   <properties>
     <java.version>17</java.version>
-    <kotlin.version>2.0.0-Beta1</kotlin.version>
+    <kotlin.version>1.9.20</kotlin.version>
   </properties>
   <dependencies>
     <dependency>
@@ -56,11 +56,6 @@
       <version>${kotlin.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.jetbrains.kotlin</groupId>
-      <artifactId>kotlin-stdlib-jdk8</artifactId>
-      <version>${kotlin.version}</version>
-    </dependency>
   </dependencies>
 
   <build>
@@ -73,6 +68,12 @@
         <groupId>org.jetbrains.kotlin</groupId>
         <artifactId>kotlin-maven-plugin</artifactId>
         <version>${kotlin.version}</version>
+        <configuration>
+          <jvmTarget>1.8</jvmTarget>
+          <compilerPlugins>
+            <plugin>jpa</plugin>
+          </compilerPlugins>
+        </configuration>
         <executions>
           <execution>
             <id>compile</id>
@@ -89,9 +90,13 @@
             </goals>
           </execution>
         </executions>
-        <configuration>
-          <jvmTarget>1.8</jvmTarget>
-        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-maven-noarg</artifactId>
+            <version>${kotlin.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

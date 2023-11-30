@@ -1,4 +1,4 @@
-package guru.springframework.jpainheritance.domain.domain
+package guru.springframework.jpainheritance.domain.domain.domain
 
 import jakarta.persistence.*
 import java.math.BigDecimal

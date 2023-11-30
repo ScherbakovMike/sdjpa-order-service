@@ -1,15 +1,15 @@
-package guru.springframework.jpainheritance.domain.domain
+package guru.springframework.jpainheritance.domain.domain.domain
 
 import jakarta.persistence.Entity
 import java.math.BigDecimal
 
-@Entity(name = "DebitAccount")
-class DebitAccount(
+@Entity(name = "CreditAccount")
+class CreditAccount(
     id: Long?,
     owner: String?,
     balance: BigDecimal?,
     interestRate: BigDecimal?,
-    val overDraftFee: BigDecimal?
+    val creditLimit: BigDecimal?
 ) :
     Account(
         id, owner, balance,
