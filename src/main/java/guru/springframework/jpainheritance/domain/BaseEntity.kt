@@ -9,11 +9,11 @@ import java.sql.Timestamp
 abstract class BaseEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long?,
+    open var id: Long?,
     @CreationTimestamp @Column(updatable = false)
-    val createdDate: Timestamp?,
+    open val createdDate: Timestamp?,
     @UpdateTimestamp
-    val lastModifiedDate: Timestamp?
+    open val lastModifiedDate: Timestamp?
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

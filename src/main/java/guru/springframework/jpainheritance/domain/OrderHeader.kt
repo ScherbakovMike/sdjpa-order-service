@@ -2,6 +2,7 @@ package guru.springframework.jpainheritance.domain
 
 import jakarta.persistence.*
 import java.sql.Timestamp
+import java.util.Objects
 
 @Entity
 @AttributeOverrides(
@@ -44,26 +45,36 @@ class OrderHeader(
     id: Long?,
     createdDate: Timestamp?,
     lastModifiedDate: Timestamp?,
-    var customer: String?,
+    @ManyToOne var customer: Customer?,
     @Embedded val shippingAddress: Address?,
     @Embedded val billToAddress: Address?,
-    @Enumerated(EnumType.STRING) val orderStatus: OrderStatus?
-) : BaseEntity(id, createdDate, lastModifiedDate) {
-    constructor() : this(null, null, null, null, null, null, null) {
+    @Enumerated(EnumType.STRING) val orderStatus: OrderStatus?,
+    @OneToMany(mappedBy = "orderHeader", cascade = [CascadeType.PERSIST]) var orderLines: MutableSet<OrderLine>?,
+    @OneToOne var orderApproval: OrderApproval?
 
+) : BaseEntity(id, createdDate, lastModifiedDate) {
+    constructor() : this(null, null, null, null, null, null, null, null, null) {
+
+    }
+
+    fun addOrderLine(line: OrderLine) {
+        if(Objects.isNull(this.orderLines)) {
+            orderLines = mutableSetOf()
+        }
+        this.orderLines!!.add(line)
+        line.orderHeader = this
     }
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+        if (other !is OrderHeader) return false
         if (!super.equals(other)) return false
-
-        other as OrderHeader
 
         if (customer != other.customer) return false
         if (shippingAddress != other.shippingAddress) return false
         if (billToAddress != other.billToAddress) return false
         if (orderStatus != other.orderStatus) return false
+        if (orderApproval != other.orderApproval) return false
 
         return true
     }
@@ -74,7 +85,9 @@ class OrderHeader(
         result = 31 * result + (shippingAddress?.hashCode() ?: 0)
         result = 31 * result + (billToAddress?.hashCode() ?: 0)
         result = 31 * result + (orderStatus?.hashCode() ?: 0)
+        result = 31 * result + (orderApproval?.hashCode() ?: 0)
         return result
     }
+
 
 }
