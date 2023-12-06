@@ -1,6 +1,7 @@
 package guru.springframework.jpainheritance.repositories;
 
 import guru.springframework.jpainheritance.domain.Product;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
@@ -8,5 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-  Product findByDescription(String description);
+  Optional<Product> findByDescription(String description);
 }

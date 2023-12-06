@@ -4,9 +4,9 @@ import jakarta.persistence.Embeddable
 
 @Embeddable
 class Address(
-    val address: String?,
-    val city: String?,
-    val state: String?,
+    var address: String?,
+    var city: String?,
+    var state: String?,
     val zipCode: String?
 ) {
     constructor() : this(null, null, null,null) {
