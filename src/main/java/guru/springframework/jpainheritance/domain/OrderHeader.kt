@@ -49,16 +49,28 @@ class OrderHeader(
     @Embedded val shippingAddress: Address?,
     @Embedded val billToAddress: Address?,
     @Enumerated(EnumType.STRING) val orderStatus: OrderStatus?,
-    @OneToMany(mappedBy = "orderHeader", cascade = [CascadeType.PERSIST]) var orderLines: MutableSet<OrderLine>?,
-    @OneToOne var orderApproval: OrderApproval?
+    @OneToMany(
+        mappedBy = "orderHeader",
+        cascade = [CascadeType.PERSIST],
+        orphanRemoval = true
+    ) var orderLines: MutableSet<OrderLine>?,
 
-) : BaseEntity(id, createdDate, lastModifiedDate) {
-    constructor() : this(null, null, null, null, null, null, null, null, null) {
+
+    ) : BaseEntity(id, createdDate, lastModifiedDate) {
+
+    @OneToOne(cascade = [CascadeType.PERSIST, CascadeType.REMOVE], mappedBy = "orderHeader")
+    var orderApproval: OrderApproval? = null
+        set(value) {
+            value?.let { it.orderHeader = this }
+            field = value
+        }
+
+    constructor() : this(null, null, null, null, null, null, null, null) {
 
     }
 
     fun addOrderLine(line: OrderLine) {
-        if(Objects.isNull(this.orderLines)) {
+        if (Objects.isNull(this.orderLines)) {
             orderLines = mutableSetOf()
         }
         this.orderLines!!.add(line)
