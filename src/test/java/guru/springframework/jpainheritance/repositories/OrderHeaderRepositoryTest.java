@@ -49,10 +49,15 @@ class OrderHeaderRepositoryTest {
   @Test
   void testSaveOrder() {
     OrderHeader orderHeader = new OrderHeader();
-    orderHeader.setCustomer(new Customer());
-    OrderHeader savedOrder = orderHeaderRepository.save(orderHeader);
+    var customer = new Customer();
+    customer.setCustomerName("New Customer12323123");
+    customer.setEmail("1@1.ru");
 
+    var savedCustomer = customerRepository.saveAndFlush(customer);
+    orderHeader.setCustomer(savedCustomer);
+    OrderHeader savedOrder = orderHeaderRepository.saveAndFlush(orderHeader);
     assertNotNull(savedOrder);
+
     assertNotNull(savedOrder.getId());
 
     OrderHeader fetchedOrder = orderHeaderRepository.getReferenceById(savedOrder.getId());

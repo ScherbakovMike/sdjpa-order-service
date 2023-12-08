@@ -41,11 +41,12 @@ import java.util.Objects
         )
     ]
 )
-class OrderHeader(
+open class OrderHeader(
     id: Long?,
     createdDate: Timestamp?,
     lastModifiedDate: Timestamp?,
-    @ManyToOne var customer: Customer?,
+    @ManyToOne(cascade = [CascadeType.PERSIST])
+    open var customer: Customer?,
     @Embedded val shippingAddress: Address?,
     @Embedded val billToAddress: Address?,
     @Enumerated(EnumType.STRING) val orderStatus: OrderStatus?,

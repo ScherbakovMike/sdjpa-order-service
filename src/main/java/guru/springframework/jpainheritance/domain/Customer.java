@@ -8,11 +8,24 @@ import java.util.Objects;
 import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer extends BaseEntity {
+
+  @Length(max = 50)
+  private String customerName;
+
+  @Embedded
+  private Address address;
+
+  private String phone;
+  private String email;
+
+  @OneToMany(mappedBy = "customer")
+  private Set<OrderHeader> orders = new LinkedHashSet<>();
 
   public String getCustomerName() {
     return customerName;
@@ -46,7 +59,6 @@ public class Customer extends BaseEntity {
     this.email = email;
   }
 
-
   public Set<OrderHeader> getOrders() {
     return orders;
   }
@@ -54,17 +66,6 @@ public class Customer extends BaseEntity {
   public void setOrders(Set<OrderHeader> orders) {
     this.orders = orders;
   }
-
-  private String customerName;
-
-  @Embedded
-  private Address address;
-
-  private String phone;
-  private String email;
-
-  @OneToMany(mappedBy = "customer")
-  private Set<OrderHeader> orders = new LinkedHashSet<>();
 
   @Override
   public boolean equals(Object o) {
@@ -87,7 +88,10 @@ public class Customer extends BaseEntity {
     if (!Objects.equals(phone, customer.phone)) {
       return false;
     }
-    return Objects.equals(email, customer.email);
+    if (!Objects.equals(email, customer.email)) {
+      return false;
+    }
+    return Objects.equals(orders, customer.orders);
   }
 
   @Override
@@ -97,6 +101,7 @@ public class Customer extends BaseEntity {
     result = 31 * result + (address != null ? address.hashCode() : 0);
     result = 31 * result + (phone != null ? phone.hashCode() : 0);
     result = 31 * result + (email != null ? email.hashCode() : 0);
+    result = 31 * result + (orders != null ? orders.hashCode() : 0);
     return result;
   }
 }
