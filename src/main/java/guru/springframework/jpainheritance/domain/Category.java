@@ -13,6 +13,10 @@ import org.hibernate.proxy.HibernateProxy;
 @Setter
 public class Category extends BaseEntity {
 
+  public String getDescription() {
+    return description;
+  }
+
   private String description;
 
   @ManyToMany

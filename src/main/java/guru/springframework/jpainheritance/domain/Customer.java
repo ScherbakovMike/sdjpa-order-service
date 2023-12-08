@@ -7,16 +7,53 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.proxy.HibernateProxy;
 
-@Getter @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 public class Customer extends BaseEntity {
+
+  public String getCustomerName() {
+    return customerName;
+  }
+
+  public void setCustomerName(String customerName) {
+    this.customerName = customerName;
+  }
+
+  public Address getAddress() {
+    return address;
+  }
+
+  public void setAddress(Address address) {
+    this.address = address;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+
+  public Set<OrderHeader> getOrders() {
+    return orders;
+  }
+
+  public void setOrders(Set<OrderHeader> orders) {
+    this.orders = orders;
+  }
 
   private String customerName;
 
@@ -30,30 +67,36 @@ public class Customer extends BaseEntity {
   private Set<OrderHeader> orders = new LinkedHashSet<>();
 
   @Override
-  public final boolean equals(Object object) {
-
-    if (this == object) {
+  public boolean equals(Object o) {
+    if (this == o) {
       return true;
     }
-    if (object == null) {
+    if (!(o instanceof Customer customer)) {
       return false;
     }
-    Class<?> oEffectiveClass = object instanceof HibernateProxy
-        ? ((HibernateProxy) object).getHibernateLazyInitializer()
-        .getPersistentClass() : object.getClass();
-    Class<?> thisEffectiveClass = this instanceof HibernateProxy
-        ? ((HibernateProxy) this).getHibernateLazyInitializer()
-        .getPersistentClass() : this.getClass();
-    if (thisEffectiveClass != oEffectiveClass) {
+    if (!super.equals(o)) {
       return false;
     }
-    Customer customer = (Customer) object;
-    return getId() != null && Objects.equals(getId(), customer.getId());
+
+    if (!Objects.equals(customerName, customer.customerName)) {
+      return false;
+    }
+    if (!Objects.equals(address, customer.address)) {
+      return false;
+    }
+    if (!Objects.equals(phone, customer.phone)) {
+      return false;
+    }
+    return Objects.equals(email, customer.email);
   }
 
   @Override
-  public final int hashCode() {
-    return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer()
-        .getPersistentClass().hashCode() : getClass().hashCode();
+  public int hashCode() {
+    int result = super.hashCode();
+    result = 31 * result + (customerName != null ? customerName.hashCode() : 0);
+    result = 31 * result + (address != null ? address.hashCode() : 0);
+    result = 31 * result + (phone != null ? phone.hashCode() : 0);
+    result = 31 * result + (email != null ? email.hashCode() : 0);
+    return result;
   }
 }

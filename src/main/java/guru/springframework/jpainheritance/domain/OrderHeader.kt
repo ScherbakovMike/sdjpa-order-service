@@ -53,9 +53,7 @@ class OrderHeader(
         mappedBy = "orderHeader",
         cascade = [CascadeType.PERSIST],
         orphanRemoval = true
-    ) var orderLines: MutableSet<OrderLine>?,
-
-
+    ) var orderLines: MutableSet<OrderLine>?
     ) : BaseEntity(id, createdDate, lastModifiedDate) {
 
     @OneToOne(cascade = [CascadeType.PERSIST, CascadeType.REMOVE], mappedBy = "orderHeader")

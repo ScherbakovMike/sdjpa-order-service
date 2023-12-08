@@ -13,7 +13,8 @@ abstract class BaseEntity(
     @CreationTimestamp @Column(updatable = false)
     open val createdDate: Timestamp?,
     @UpdateTimestamp
-    open val lastModifiedDate: Timestamp?
+    open val lastModifiedDate: Timestamp?,
+    @Version open val version: Int? = 0
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
